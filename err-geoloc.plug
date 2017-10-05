@@ -1,0 +1,9 @@
+[Core]
+Name = geoloc
+Module = err-geoloc
+
+[Documentation]
+Description = add geoloc to a map
+
+[Python]
+Version = 2+
