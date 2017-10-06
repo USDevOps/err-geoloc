@@ -21,21 +21,21 @@ class Geoloc(BotPlugin):
 
 
         location = {
-                str(msg.frm): town,
+                str(msg.frm.person): town,
             }
         self['location'] = location
-        yield (location[str(msg.frm)][1][1])
-        yield (location[str(msg.frm)][1][0])
-        latitudes = [location[str(msg.frm)][1][0]]
-        longitudes = [location[str(msg.frm)][1][1]] 
+        yield (location[str(msg.frm.person)][1][1])
+        yield (location[str(msg.frm.person)][1][0])
+        latitudes = [location[str(msg.frm.person)][1][0]]
+        longitudes = [location[str(msg.frm.person)][1][1]] 
         gmap = gmp.from_geocode("San Francisco", 5)
-        gmap.marker(location[str(msg.frm)][1][0], location[str(msg.frm)][1][1], "red", None, "romainrbr")
+        gmap.marker(location[str(msg.frm.person)][1][0], location[str(msg.frm.person)][1][1], "red", None, "romainrbr")
         gmap.draw('/tmp/map.html')
 
     @botcmd()
     def geoloc_get(self, msg, args):
-        if self['location'][str(msg.frm)] is None:
+        if self['location'][str(msg.frm.person)] is None:
             yield("Please set a location with !loc set")
             raise SystemExit(0)
         else:
-            yield("Your location is set as %s" % self['location'][str(msg.frm)])
+            yield("Your location is set as %s" % self['location'][str(msg.frm.person)])
