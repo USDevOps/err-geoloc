@@ -1,6 +1,5 @@
 #!/usr/bin/python
 ##-------------------------------------------------------------------
-## @copyright 2017 DennyZhang.com
 ## Licensed under MIT
 ##   https://www.dennyzhang.com/wp-content/mit_license.txt
 ##
@@ -8,8 +7,8 @@
 ## Author : Romain Brucker <brucker.romain@gmail.com>, Denny Zhang <contact@dennyzhang.com>
 ## Description :
 ## --
-## Created : <2017-09-25>
-## Updated: Time-stamp: <2017-10-06 19:22:35>
+## Created : <2017-10-04>
+## Updated: Time-stamp: <2017-10-06 19:23:03>
 ##-------------------------------------------------------------------
 from errbot import BotPlugin, botcmd
 from geopy.geocoders import Nominatim
