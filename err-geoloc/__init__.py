@@ -1,3 +1,15 @@
+#!/usr/bin/python
+##-------------------------------------------------------------------
+## Licensed under MIT
+##   https://www.dennyzhang.com/wp-content/mit_license.txt
+##
+## File : __init__.py
+## Author : Romain Brucker <brucker.romain@gmail.com>, Denny Zhang <contact@dennyzhang.com>
+## Description :
+## --
+## Created : <2017-10-04>
+## Updated: Time-stamp: <2017-10-06 19:23:03>
+##-------------------------------------------------------------------
 from errbot import BotPlugin, botcmd
 from geopy.geocoders import Nominatim
 import sys, json, geopy
@@ -19,10 +31,9 @@ class Geoloc(BotPlugin):
         # yield (msg.frm)
         # yield (location[1][0])
 
-
         location = {
                 str(msg.frm.person): town,
-            }
+        }
         self['location'] = location
         yield (location[str(msg.frm.person)][1][1])
         yield (location[str(msg.frm.person)][1][0])
@@ -39,3 +50,4 @@ class Geoloc(BotPlugin):
             raise SystemExit(0)
         else:
             yield("Your location is set as %s" % self['location'][str(msg.frm.person)])
+## File : __init__.py ends
