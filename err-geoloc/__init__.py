@@ -20,34 +20,50 @@ class Geoloc(BotPlugin):
 
     def activate(self):
         super(Geoloc, self).activate()
-        if 'location' not in self:     
-            self['location'] = {}
+        if 'location_db' not in self:     
+            self['location_db'] = {}
 
     @botcmd()
     def geoloc_set(self, msg, args):
-        # yield args
         geolocator = Nominatim()
-        town = geolocator.geocode(args)
-        # yield (msg.frm)
-        # yield (location[1][0])
-
-        location = {
-                str(msg.frm.person): town,
+        location = geolocator.geocode(args)
+        yield location[1][0]
+        location_db = self['location_db']
+        location_db[str(msg.frm.person)] = {
+                "user": msg.frm.person,
+                "place": location[0],
+                "latitude":location[1][0],
+                "longitude":location[1][1],
         }
-        self['location'] = location
-        yield (location[str(msg.frm.person)][1][1])
-        yield (location[str(msg.frm.person)][1][0])
-        latitudes = [location[str(msg.frm.person)][1][0]]
-        longitudes = [location[str(msg.frm.person)][1][1]] 
-        gmap = gmp.from_geocode("San Francisco", 5)
-        gmap.marker(location[str(msg.frm.person)][1][0], location[str(msg.frm.person)][1][1], "red", None, "romainrbr")
+        yield location_db
+        self['location_db'] = location_db
+        gmap = gmp.from_geocode("Washington", 5)
+        for i in location_db:
+            gmap.marker(location_db[i]['latitude'], location_db[i]['longitude'], "red", None, location_db[i]['user'])
         gmap.draw('/tmp/map.html')
 
     @botcmd()
     def geoloc_get(self, msg, args):
-        if self['location'][str(msg.frm.person)] is None:
+        if self['location_db'][str(msg.frm.person)] is None:
             yield("Please set a location with !loc set")
             raise SystemExit(0)
         else:
-            yield("Your location is set as %s" % self['location'][str(msg.frm.person)])
+            yield("Your location is set as %s" % self['location_db'][str(msg.frm.person)])
+
+    @botcmd()
+    def geoloc_debug(self, msg, args):
+        name = "@%s" % str(msg.frm.person)
+        if name in self.bot_config.BOT_ADMINS:
+            yield(self['location_db'])
+        else:
+            yield("you need to be an admin to use this command")
+
+    @botcmd()
+    def geoloc_wipe(self, msg, args):
+        name = "@%s" % str(msg.frm.person)
+        if name in self.bot_config.BOT_ADMINS:
+            self['location_db'] = {}
+            yield("Database reset")
+        else:
+            yield("you need to be an admin to use this command")
 ## File : __init__.py ends
