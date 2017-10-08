@@ -28,7 +28,6 @@ class Geoloc(BotPlugin):
     def geoloc_set(self, msg, args):
         geolocator = Nominatim()
         location = geolocator.geocode(args)
-        yield location[1][0]
         location_db = self['location_db']
         location_db[str(msg.frm.person)] = {
                 "user": msg.frm.person,
@@ -36,7 +35,7 @@ class Geoloc(BotPlugin):
                 "latitude":location[1][0],
                 "longitude":location[1][1],
         }
-        yield location_db
+        yield("Your location is set as %s" % self['location_db'][str(msg.frm.person)]['place'])
         self['location_db'] = location_db
         gmap = gmp.from_geocode("Washington DC", 5)
         for i in location_db:
@@ -50,7 +49,7 @@ class Geoloc(BotPlugin):
             yield("Please set a location with !loc set")
             raise SystemExit(0)
         else:
-            yield("Your location is set as %s" % self['location_db'][str(msg.frm.person)])
+            yield("Your location is set as %s" % self['location_db'][str(msg.frm.person)]['place'])
 
     @botcmd()
     def geoloc_debug(self, msg, args):
