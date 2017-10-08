@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 ##-------------------------------------------------------------------
 ## Licensed under MIT
 ##   https://www.dennyzhang.com/wp-content/mit_license.txt
@@ -8,7 +8,7 @@
 ## Description :
 ## --
 ## Created : <2017-10-04>
-## Updated: Time-stamp: <2017-10-06 19:23:03>
+## Updated: Time-stamp: <2017-10-06 19:34:49>
 ##-------------------------------------------------------------------
 from errbot import BotPlugin, botcmd
 from geopy.geocoders import Nominatim
