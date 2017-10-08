@@ -13,7 +13,6 @@
     - (Alternatively, you can just clone the repo inside `plugins/err-geoloc` to make it easier to work on it)
 - Verify that the plugin was installed using `!status plugin`
 
-
 # Development
 errbot documentation is pretty extensive : http://errbot.io/en/latest/index.html
 
