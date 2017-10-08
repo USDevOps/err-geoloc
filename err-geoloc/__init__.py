@@ -23,6 +23,7 @@ class Geoloc(BotPlugin):
         if 'location_db' not in self:     
             self['location_db'] = {}
 
+
     @botcmd()
     def geoloc_set(self, msg, args):
         geolocator = Nominatim()
@@ -37,10 +38,11 @@ class Geoloc(BotPlugin):
         }
         yield location_db
         self['location_db'] = location_db
-        gmap = gmp.from_geocode("Washington", 5)
+        gmap = gmp.from_geocode("Washington DC", 5)
         for i in location_db:
             gmap.marker(location_db[i]['latitude'], location_db[i]['longitude'], "red", None, location_db[i]['user'])
-        gmap.draw('/tmp/map.html')
+            gmap.text(location_db[i]['latitude']-0.5, location_db[i]['longitude'], color="#000000", text=location_db[i]['user'])
+        gmap.draw('/tmp/map.html', api_key=self['api_key'])
 
     @botcmd()
     def geoloc_get(self, msg, args):
@@ -66,4 +68,15 @@ class Geoloc(BotPlugin):
             yield("Database reset")
         else:
             yield("you need to be an admin to use this command")
+
+    @botcmd()
+    def geoloc_set_api(self, msg, args):
+        name = "@%s" % str(msg.frm.person)
+        if name in self.bot_config.BOT_ADMINS:
+            api_key = args
+            self['api_key'] = api_key
+            yield("api_key set to %s" % api_key)
+        else:
+            yield("you need to be an admin to use this command")
+
 ## File : __init__.py ends
