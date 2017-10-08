@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/DennyZhang/err-geoloc.svg?branch=master)](https://travis-ci.org/DennyZhang/remote-commands-servers) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
+[![Build Status](https://travis-ci.org/DennyZhang/err-geoloc.svg?branch=master)](https://travis-ci.org/DennyZhang/err-geoloc) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
 [![Slack](https://www.dennyzhang.com/wp-content/uploads/sns/slack.png)](https://goo.gl/ozDDyL) [![Github](https://www.dennyzhang.com/wp-content/uploads/sns/github.png)](https://github.com/USDevOps/err-geoloc)
 
