@@ -54,7 +54,7 @@ class Geoloc(BotPlugin):
 
     @botcmd()
     def geoloc_debug(self, msg, args):
-        name = "@%s" % str(msg.frm.person)
+        name = "@%s" % str(msg.frm.nick)
         if name in self.bot_config.BOT_ADMINS:
             yield(self['location_db'])
         else:
@@ -62,7 +62,7 @@ class Geoloc(BotPlugin):
 
     @botcmd()
     def geoloc_wipe(self, msg, args):
-        name = "@%s" % str(msg.frm.person)
+        name = "@%s" % str(msg.frm.nick)
         if name in self.bot_config.BOT_ADMINS:
             self['location_db'] = {}
             yield("Database reset")
@@ -71,7 +71,7 @@ class Geoloc(BotPlugin):
 
     @botcmd()
     def geoloc_set_api(self, msg, args):
-        name = "@%s" % str(msg.frm.person)
+        name = "@%s" % str(msg.frm.nick)
         if name in self.bot_config.BOT_ADMINS:
             api_key = args
             self['api_key'] = api_key
