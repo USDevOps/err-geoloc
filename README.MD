@@ -4,7 +4,7 @@
 
 # Getting started
 
-- Install errbot using `pip install errbot`
+- Install errbot using `pip3 install errbot`
 - create an errbot folder anywhere, and enter it
 - Init the errbot installation with `errbot --init`
 - Edit `config.py` and replace `CHANGE ME` by your name (any name will work for development) with a starting `@`
