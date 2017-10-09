@@ -18,7 +18,9 @@ class Geoloc(BotPlugin):
 
     def get_configuration_template(self):
         return {'unique_id':'', #Should be set to either person, id or nick depending on the backend. Use !plugin config geoloc to set.
-                'json_path': ''}  #Set the full path to the json file. Ex "/var/www/html/user_db.json"
+                'json_path': '', #Set the full path to the json file. Ex "/var/www/html/user_db.json"
+                'url': ''
+                }  
     @botcmd()
     def geoloc_set(self, msg, args):
         """Define your location
@@ -41,6 +43,7 @@ class Geoloc(BotPlugin):
         with open(self.config['json_path'], 'w') as f: #Write the user data to the json file
             json.dump(user_db, f)
         yield("Your location is set as %s" % user_db[str(getattr(msg.frm, self.config['unique_id']))]['place']) #Prompt the location back to the user to make sure he chose the right one
+        yield("Here is the current updated map : %s" % self.config['url'])
 
     @botcmd()
     def geoloc_get(self, msg, args):
