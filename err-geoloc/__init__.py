@@ -8,56 +8,51 @@
 ## Description :
 ## --
 ## Created : <2017-10-04>
-## Updated: Time-stamp: <2017-10-08 10:01:49>
+## Updated: Time-stamp: <2017-10-09 08:20:00>
 ##-------------------------------------------------------------------
 from errbot import BotPlugin, botcmd
 from geopy.geocoders import Nominatim
-import sys, json, geopy
+import sys, json, geopy, os
 
 class Geoloc(BotPlugin):
 
+    def get_configuration_template(self):
+        return {'unique_id':'', #Should be set to either person, id or nick depending on the backend. Use !plugin config geoloc to set.
+                'json_path': ''}  #Set the full path to the json file. Ex "/var/www/html/user_db.json"
     @botcmd()
     def geoloc_set(self, msg, args):
+        """Define your location
+        usage: !geoloc set New York
+        """
+        
         geolocator = Nominatim()
-        location = geolocator.geocode(args)
-        with open('user_db.json', 'r') as f:
-            user_db = json.load(f)
-        user_db[str(msg.frm.person)] = {
-                "user": msg.frm.person,
+        location = geolocator.geocode(args) #Create a location array using the data provided by the user
+        if os.path.exists(self.config['json_path']): #Check if the database exists
+            with open(self.config['json_path'], 'r') as f: #Load the json database file
+                user_db = json.load(f)
+        else:
+            user_db = {} #Create the database if it doesnt
+        user_db[str(getattr(msg.frm, self.config['unique_id']))] = { #Insert the user data into an object
+                "user": str(getattr(msg.frm, self.config['unique_id'])),
                 "place": location[0],
                 "latitude":location[1][0],
                 "longitude":location[1][1],
         }
-        with open('user_db.json', 'w') as f:
+        with open(self.config['json_path'], 'w') as f: #Write the user data to the json file
             json.dump(user_db, f)
-        yield("Your location is set as %s" % user_db[str(msg.frm.person)]['place'])
+        yield("Your location is set as %s" % user_db[str(getattr(msg.frm, self.config['unique_id']))]['place']) #Prompt the location back to the user to make sure he chose the right one
 
     @botcmd()
     def geoloc_get(self, msg, args):
-        with open('user_db.json', 'r') as f:
+        """Get your current location
+        usage: !geoloc get
+        """
+        with open(self.config['json_path'], 'r') as f:
             user_db = json.load(f)
-        if user_db[str(msg.frm.person)] is None:
+        if user_db[str(getattr(msg.frm, self.config['unique_id']))] is None:
             yield("Please set a location with !loc set")
             raise SystemExit(0)
         else:
-            yield("Your location is set as %s" % user_db[str(msg.frm.person)]['place'])
-
-    @botcmd()
-    def geoloc_debug(self, msg, args):
-        name = "@%s" % str(msg.frm.nick)
-        if name in self.bot_config.BOT_ADMINS:
-            yield(user_db)
-        else:
-            yield("you need to be an admin to use this command")
-
-    @botcmd()
-    def geoloc_set_api(self, msg, args):
-        name = "@%s" % str(msg.frm.nick)
-        if name in self.bot_config.BOT_ADMINS:
-            api_key = args
-            self['api_key'] = api_key
-            yield("api_key set to %s" % api_key)
-        else:
-            yield("you need to be an admin to use this command")
+            yield("Your location is set as %s" % user_db[str(getattr(msg.frm, self.config['unique_id']))]['place'])
 
 ## File : __init__.py ends
