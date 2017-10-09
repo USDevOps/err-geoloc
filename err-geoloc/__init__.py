@@ -33,7 +33,7 @@ class Geoloc(BotPlugin):
         else:
             user_db = {} #Create the database if it doesnt
         user_db[str(getattr(msg.frm, self.config['unique_id']))] = { #Insert the user data into an object
-                "user": str(getattr(msg.frm, self.config['unique_id'])),
+                "user": str(getattr(msg.frm)),
                 "place": location[0],
                 "latitude":location[1][0],
                 "longitude":location[1][1],
